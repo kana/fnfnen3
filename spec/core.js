@@ -153,19 +153,6 @@ describe('Core', function () {
         'u', 'v', 'w', 'x', 'y',
         'z'
       ];
-      var sd = {}
-      for (var i in tokens) {
-        var t = tokens[i];
-        sd[t] = Math.abs(0.5 - prafbe.calculate_spamness(rd, wd, t));
-      }
-      var sorted_tokens = (
-        tokens
-        .slice(0)
-        .sort(function (a, b) {
-          return sd[a] - sd[b];
-        })
-        .reverse()
-      );
 
       expect(prafbe.list_most_interesting_tokens(rd, wd, tokens, 3)).
       toEqual(['n', 'i', 'd']);
