@@ -1,6 +1,7 @@
 var prafbe = {};
 
 prafbe.MINIMUM_TOKEN_PROBABILITY = 0.0001;
+prafbe.TOKEN_COUNT_KEY = '*token-count*';  // must contain non-token character.
 prafbe.UNFAMILIAR_TOKEN_PROBABILITY = 0.4;
 
 
@@ -51,6 +52,8 @@ prafbe.learn = function (dict, s)
     var n = dict[t];
     dict[t] = (n || 0) + 1;
   }
+
+  dict[prafbe.TOKEN_COUNT_KEY] = null;
 };
 
 
@@ -95,10 +98,14 @@ function (right_dict, wrong_dict, tokens, n)
 
 prafbe.sum_token_counts = function (dict)
 {
-  var n = 0;
+  var n = dict[prafbe.TOKEN_COUNT_KEY];
 
-  for (var i in dict)
-    n += dict[i];
+  if (n == null) {
+    n = 0;
+    for (var i in dict)
+      n += dict[i];
+    dict[prafbe.TOKEN_COUNT_KEY] = n;
+  }
 
   return n;
 };

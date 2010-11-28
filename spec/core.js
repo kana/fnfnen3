@@ -180,6 +180,22 @@ describe('Core', function () {
       expect(prafbe.sum_token_counts({'a': 1, 'b': 2})).toEqual(3);
       expect(prafbe.sum_token_counts({'a': 1, 'b': 2, 'c': 3})).toEqual(6);
     });
+    it('should cache result', function () {
+      var d = {};
+
+      expect(prafbe.sum_token_counts(d)).toEqual(0);
+      expect(d[prafbe.TOKEN_COUNT_KEY]).toEqual(0);
+
+      d['a'] = 2;
+      expect(prafbe.sum_token_counts(d)).toEqual(0);
+
+      d[prafbe.TOKEN_COUNT_KEY] = 8;
+      expect(prafbe.sum_token_counts(d)).toEqual(8);
+
+      prafbe.learn(d, 'love me love me tender');
+      expect(d[prafbe.TOKEN_COUNT_KEY]).toEqual(null);
+      expect(prafbe.sum_token_counts(d)).toEqual(2 + 5);
+    });
   });
   describe('tokenize', function () {
     var _ = function (s, tokens) {
