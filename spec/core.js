@@ -32,6 +32,14 @@ describe('Core', function () {
       toEqual(['あい', 'いう', 'うえ', 'えお']);
     });
   });
+  describe('sum_token_counts', function () {
+    it('should sum correctly', function () {
+      expect(prafbe.sum_token_counts({})).toEqual(0);
+      expect(prafbe.sum_token_counts({'a': 1})).toEqual(1);
+      expect(prafbe.sum_token_counts({'a': 1, 'b': 2})).toEqual(3);
+      expect(prafbe.sum_token_counts({'a': 1, 'b': 2, 'c': 3})).toEqual(6);
+    });
+  });
   describe('tokenize', function () {
     var _ = function (s, tokens) {
       expect(prafbe.tokenize(s)).toEqual(tokens);

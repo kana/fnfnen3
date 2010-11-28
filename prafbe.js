@@ -29,6 +29,19 @@ prafbe.list_bigrams = function (s)
 
 
 
+prafbe.sum_token_counts = function (dict)
+{
+  var n = 0;
+
+  for (var i in dict)
+    n += dict[i];
+
+  return n;
+};
+
+
+
+
 prafbe.tokenize = function (s)
 {
   return (
