@@ -245,6 +245,10 @@ describe('Core', function () {
     it('should work on edge case: single-character token', function () {
       _('f(x)(あ)', ['f', 'x', 'あ']);
     });
+    it('should work on edge case: zero tokens', function () {
+      _('', []);
+      _('(>_<)', []);
+    });
   });
 });
 
