@@ -126,6 +126,10 @@ describe('Core', function () {
       expect(prafbe.list_bigrams('あいうえお')).
       toEqual(['あい', 'いう', 'うえ', 'えお']);
     });
+    it('should work on edge case: single character', function () {
+      expect(prafbe.list_bigrams('a')).toEqual(['a']);
+      expect(prafbe.list_bigrams('あ')).toEqual(['あ']);
+    });
   });
   describe('list_most_interesting_tokens', function () {
     it('should list most interesting tokens', function () {
@@ -237,6 +241,9 @@ describe('Core', function () {
     it('should tokenize multibyte characters by 2-gram', function () {
       _('あいうえお', ['あい', 'いう', 'うえ', 'えお']);
       _('foo あいうえお bar', ['foo', 'あい', 'いう', 'うえ', 'えお', 'bar']);
+    });
+    it('should work on edge case: single-character token', function () {
+      _('f(x)(あ)', ['f', 'x', 'あ']);
     });
   });
 });

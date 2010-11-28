@@ -66,7 +66,7 @@ prafbe.list_bigrams = function (s)
   for (var i = 1; i < s.length; i++)
     bigrams.push(s[i - 1] + s[i]);
 
-  return bigrams;
+  return 0 < bigrams.length ? bigrams : [s];
 };
 
 
