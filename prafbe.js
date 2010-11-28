@@ -78,12 +78,16 @@ function (right_dict, wrong_dict, tokens, n, with_probability_p)
   with_probability_p = (with_probability_p || false);
 
   var pairs = [];
+  var found = {};
   for (var i in tokens) {
     var t = tokens[i];
-    var p = Math.abs(
-      0.5 - prafbe.calculate_spamness(right_dict, wrong_dict, t)
-    );
-    pairs.push([t, p]);
+    if (!(found[t])) {
+      var p = Math.abs(
+        0.5 - prafbe.calculate_spamness(right_dict, wrong_dict, t)
+      );
+      pairs.push([t, p]);
+      found[t] = true;
+    }
   }
 
   var most_interesting_pairs = (

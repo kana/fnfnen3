@@ -171,6 +171,18 @@ describe('Core', function () {
       expect(typeof xs[0][0]).toEqual(typeof '');
       expect(typeof xs[0][1]).toEqual(typeof 0);
     });
+    it('should list distinct tokens', function () {
+      var rd = {'a': 999, 'b': 888, 'c': 777, 'd': 0};
+      var wd = {'a': 1, 'b': 1, 'c': 1, 'd': 1};
+      var tokens = ['a', 'a', 'b', 'b', 'c', 'c', 'd'];
+
+      expect(prafbe.list_most_interesting_tokens(rd, wd, tokens, 1)).
+      toEqual(['a']);
+      expect(prafbe.list_most_interesting_tokens(rd, wd, tokens, 3)).
+      toEqual(['a', 'b', 'c']);
+      expect(prafbe.list_most_interesting_tokens(rd, wd, tokens, 8)).
+      toEqual(['a', 'b', 'c', 'd']);
+    });
   });
   describe('sum_token_counts', function () {
     it('should sum correctly', function () {
