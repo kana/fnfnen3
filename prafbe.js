@@ -56,6 +56,30 @@ prafbe.list_bigrams = function (s)
 
 
 
+prafbe.list_most_interesting_tokens =
+function (right_dict, wrong_dict, tokens, n)
+{
+  var score_dict = {}
+  for (var i in tokens) {
+    var t = tokens[i];
+    score_dict[t] = Math.abs(
+      0.5 - prafbe.calculate_spamness(right_dict, wrong_dict, t)
+    );
+  }
+  return (
+    tokens
+    .slice(0)
+    .sort(function (a, b) {
+      return score_dict[a] - score_dict[b];
+    })
+    .reverse()
+    .slice(0, n)
+  );
+};
+
+
+
+
 prafbe.sum_token_counts = function (dict)
 {
   var n = 0;

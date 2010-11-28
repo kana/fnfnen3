@@ -121,6 +121,52 @@ describe('Core', function () {
       toEqual(['あい', 'いう', 'うえ', 'えお']);
     });
   });
+  describe('list_most_interesting_tokens', function () {
+    it('should list most interesting tokens', function () {
+      var rd = {
+        'a': 3, 'b': 4, 'c': 4, 'd': 5, 'e': 4,
+        'f': 4, 'g': 5, 'h': 6, 'i': 7, 'j': 5,
+        'k': 4, 'l': 5, 'm': 5, 'n': 6, 'o': 4,
+        'p': 5, 'q': 6, 'r': 6, 's': 6, 't': 4,
+        'u': 4, 'v': 5, 'w': 4, 'x': 4, 'y': 3,
+        'z': 4
+      };
+      var wd = {
+        'a': 4, 'b': 7, 'c': 4, 'd': 3, 'e': 4,
+        'f': 5, 'g': 9, 'h': 5, 'i': 4, 'j': 5,
+        'k': 4, 'l': 7, 'm': 4, 'n': 3, 'o': 4,
+        'p': 5, 'q': 9, 'r': 5, 's': 4, 't': 5,
+        'u': 4, 'v': 7, 'w': 4, 'x': 3, 'y': 4,
+        'z': 5
+      };
+      var tokens = [
+        'a', 'b', 'c', 'd', 'e',
+        'f', 'g', 'h', 'i', 'j',
+        'k', 'l', 'm', 'n', 'o',
+        'p', 'q', 'r', 's', 't',
+        'u', 'v', 'w', 'x', 'y',
+        'z'
+      ];
+      var sd = {}
+      for (var i in tokens) {
+        var t = tokens[i];
+        sd[t] = Math.abs(0.5 - prafbe.calculate_spamness(rd, wd, t));
+      }
+      var sorted_tokens = (
+        tokens
+        .slice(0)
+        .sort(function (a, b) {
+          return sd[a] - sd[b];
+        })
+        .reverse()
+      );
+
+      expect(prafbe.list_most_interesting_tokens(rd, wd, tokens, 3)).
+      toEqual(['n', 'i', 'd']);
+      expect(prafbe.list_most_interesting_tokens(rd, wd, tokens, 5)).
+      toEqual(['n', 'i', 'd', 's', 'x']);
+    });
+  });
   describe('sum_token_counts', function () {
     it('should sum correctly', function () {
       expect(prafbe.sum_token_counts({})).toEqual(0);
