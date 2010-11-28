@@ -5,8 +5,12 @@ var prafbe = {};
 
 prafbe.list_bigrams = function (s)
 {
-  // FIXME: NIY
-  return [s];
+  var bigrams = [];
+
+  for (var i = 1; i < s.length; i++)
+    bigrams.push(s[i - 1] + s[i]);
+
+  return bigrams;
 };
 
 

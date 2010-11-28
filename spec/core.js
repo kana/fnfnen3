@@ -1,4 +1,14 @@
 describe('Core', function () {
+  describe('list_bigrams', function () {
+    it('should list bigrams of a plain ascii string', function () {
+      expect(prafbe.list_bigrams('abcde')).
+      toEqual(['ab', 'bc', 'cd', 'de']);
+    });
+    it('should list bigrams of a multibyte string', function () {
+      expect(prafbe.list_bigrams('あいうえお')).
+      toEqual(['あい', 'いう', 'うえ', 'えお']);
+    });
+  });
   describe('tokenize', function () {
     var _ = function (s, tokens) {
       expect(prafbe.tokenize(s)).toEqual(tokens);
