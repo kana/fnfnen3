@@ -159,6 +159,18 @@ describe('Core', function () {
       expect(prafbe.list_most_interesting_tokens(rd, wd, tokens, 5)).
       toEqual(['n', 'i', 'd', 's', 'x']);
     });
+    it('can list tokens with probabilities', function () {
+      var xs = prafbe.list_most_interesting_tokens(
+        {},
+        {},
+        ['a', 'b', 'c'],
+        15,
+        true
+      );
+      
+      expect(typeof xs[0][0]).toEqual(typeof '');
+      expect(typeof xs[0][1]).toEqual(typeof 0);
+    });
   });
   describe('sum_token_counts', function () {
     it('should sum correctly', function () {
