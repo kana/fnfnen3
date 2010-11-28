@@ -1,5 +1,32 @@
 var prafbe = {};
 
+prafbe.MINIMUM_TOKEN_PROBABILITY = 0.0001;
+prafbe.UNFAMILIAR_TOKEN_PROBABILITY = 0.4;
+
+
+
+
+prafbe.calculate_spamness = function (right_dict, wrong_dict, token)
+{
+  var r = right_dict[token] || 0;
+  var w = wrong_dict[token] || 0;
+  var rn = prafbe.sum_token_counts(right_dict);
+  var wn = prafbe.sum_token_counts(wrong_dict);
+  var rp = Math.min(1, (2 * r) / rn);
+  var wp = Math.min(1, w / wn);
+  var mp = prafbe.MINIMUM_TOKEN_PROBABILITY;
+
+  if (2 * r + w < 5) {
+    return prafbe.UNFAMILIAR_TOKEN_PROBABILITY;
+  } else if (r == 0) {
+    return w <= 10 ? (1 - 2 * mp) : (1 - mp);
+  } else if (w == 0) {
+    return r <= 10 ? mp * 2 : mp;
+  } else {
+    return Math.max(0.01, Math.min(0.99, wp / (rp + wp)));
+  }
+};
+
 
 
 

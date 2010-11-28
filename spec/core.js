@@ -1,4 +1,93 @@
 describe('Core', function () {
+  describe('calculate_spamness', function () {
+    it('should calculate special value for unfamiliar token', function () {
+      expect(prafbe.calculate_spamness({}, {}, 'foo')).
+      toEqual(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+
+      expect(prafbe.calculate_spamness({'foo': 1}, {}, 'foo')).
+      toEqual(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+      expect(prafbe.calculate_spamness({'foo': 2}, {}, 'foo')).
+      toEqual(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+      expect(prafbe.calculate_spamness({'foo': 3}, {}, 'foo')).
+      not.toEqual(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+
+      expect(prafbe.calculate_spamness({}, {'foo': 1}, 'foo')).
+      toEqual(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+      expect(prafbe.calculate_spamness({}, {'foo': 4}, 'foo')).
+      toEqual(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+      expect(prafbe.calculate_spamness({}, {'foo': 5}, 'foo')).
+      not.toEqual(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+
+      expect(prafbe.calculate_spamness({'foo': 1}, {'foo': 2}, 'foo')).
+      toEqual(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+      expect(prafbe.calculate_spamness({'foo': 1}, {'foo': 3}, 'foo')).
+      not.toEqual(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+    });
+    it('should calculate max value for token only in wrong dict', function () {
+      expect(prafbe.calculate_spamness({}, {'foo': 4}, 'foo')).
+      toEqual(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+      expect(prafbe.calculate_spamness({}, {'foo': 5}, 'foo')).
+      toEqual(1 - 2 * prafbe.MINIMUM_TOKEN_PROBABILITY);
+      expect(prafbe.calculate_spamness({}, {'foo': 10}, 'foo')).
+      toEqual(1 - 2 * prafbe.MINIMUM_TOKEN_PROBABILITY);
+      expect(prafbe.calculate_spamness({}, {'foo': 11}, 'foo')).
+      toEqual(1 - prafbe.MINIMUM_TOKEN_PROBABILITY);
+    });
+    it('should calculate min value for token only in right dict', function () {
+      expect(prafbe.calculate_spamness({'foo': 2}, {}, 'foo')).
+      toEqual(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+      expect(prafbe.calculate_spamness({'foo': 3}, {}, 'foo')).
+      toEqual(2 * prafbe.MINIMUM_TOKEN_PROBABILITY);
+      expect(prafbe.calculate_spamness({'foo': 10}, {}, 'foo')).
+      toEqual(2 * prafbe.MINIMUM_TOKEN_PROBABILITY);
+      expect(prafbe.calculate_spamness({'foo': 11}, {}, 'foo')).
+      toEqual(prafbe.MINIMUM_TOKEN_PROBABILITY);
+    });
+    it('should calculate complex value for well-learned token', function () {
+      expect(prafbe.calculate_spamness(
+          {'a': 1, 'b': 9},
+          {'a': 2, 'b': 8},
+          'a'
+      )).
+      toEqual(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+      expect(prafbe.calculate_spamness(
+          {'a': 1, 'b': 9},
+          {'a': 3, 'b': 8},
+          'a'
+      )).
+      not.toEqual(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+    });
+    it('should calculate big value for spammy token', function () {
+      var v_small = prafbe.calculate_spamness(
+        {'a': 1, 'b': 9},
+        {'a': 7, 'b': 8},
+        'a'
+      );
+      var v_many = prafbe.calculate_spamness(
+        {'a': 1, 'b': 9},
+        {'a': 999, 'b': 8},
+        'a'
+      );
+      expect(v_small).toBeGreaterThan(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+      expect(v_many).toBeGreaterThan(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+      expect(v_many).toBeGreaterThan(v_small);
+    });
+    it('should calculate small value for non-spammy token', function () {
+      var v_small = prafbe.calculate_spamness(
+        {'a': 7, 'b': 8},
+        {'a': 3, 'b': 7},
+        'a'
+      );
+      var v_many = prafbe.calculate_spamness(
+        {'a': 999, 'b': 8},
+        {'a': 3, 'b': 7},
+        'a'
+      );
+      expect(v_small).toBeLessThan(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+      expect(v_many).toBeLessThan(prafbe.UNFAMILIAR_TOKEN_PROBABILITY);
+      expect(v_many).toBeLessThan(v_small);
+    });
+  });
   describe('learn', function () {
     it('should count tokens correctly', function () {
       var dict = {};
