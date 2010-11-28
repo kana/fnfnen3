@@ -130,6 +130,10 @@ describe('Core', function () {
       expect(prafbe.list_bigrams('a')).toEqual(['a']);
       expect(prafbe.list_bigrams('あ')).toEqual(['あ']);
     });
+    xit('should work on edge case: null string', function () {
+      expect(prafbe.list_bigrams('')).toEqual([]);  // ?
+      expect(prafbe.list_bigrams('')).toEqual(['']);  // ?
+    });
   });
   describe('list_most_interesting_tokens', function () {
     it('should list most interesting tokens', function () {
