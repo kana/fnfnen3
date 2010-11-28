@@ -6,6 +6,19 @@ prafbe.UNFAMILIAR_TOKEN_PROBABILITY = 0.4;
 
 
 
+prafbe.calculate_spam_probability = function (probabilities)
+{
+  var p1 = probabilities.
+           reduce(function (a, b) {return a * b;});
+  var p2 = probabilities.
+           map(function (x) {return 1 - x;}).
+           reduce(function (a, b) {return a * b;});
+  return p1 / (p1 + p2);
+};
+
+
+
+
 prafbe.calculate_spamness = function (right_dict, wrong_dict, token)
 {
   var r = right_dict[token] || 0;

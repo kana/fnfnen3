@@ -1,4 +1,10 @@
 describe('Core', function () {
+  describe('calculate_spam_probability', function () {
+    it('should calculate properly', function () {
+      expect(prafbe.calculate_spam_probability([0.1, 0.2, 0.3])).
+      toEqual(0.1*0.2*0.3 / (0.1*0.2*0.3 + (1-0.1)*(1-0.2)*(1-0.3)));
+    });
+  });
   describe('calculate_spamness', function () {
     it('should calculate special value for unfamiliar token', function () {
       expect(prafbe.calculate_spamness({}, {}, 'foo')).
