@@ -1,4 +1,27 @@
 describe('Core', function () {
+  describe('learn', function () {
+    it('should count tokens correctly', function () {
+      var dict = {};
+
+      prafbe.learn(dict, 'love me do');
+      expect(dict['love']).toEqual(1);
+      expect(dict['me']).toEqual(1);
+      expect(dict['do']).toEqual(1);
+      expect(dict['tender']).not.toBeDefined();
+
+      prafbe.learn(dict, 'love me tender');
+      expect(dict['love']).toEqual(2);
+      expect(dict['me']).toEqual(2);
+      expect(dict['do']).toEqual(1);
+      expect(dict['tender']).toEqual(1);
+
+      prafbe.learn(dict, 'love me love me tender');
+      expect(dict['love']).toEqual(4);
+      expect(dict['me']).toEqual(4);
+      expect(dict['do']).toEqual(1);
+      expect(dict['tender']).toEqual(2);
+    });
+  });
   describe('list_bigrams', function () {
     it('should list bigrams of a plain ascii string', function () {
       expect(prafbe.list_bigrams('abcde')).

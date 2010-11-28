@@ -3,6 +3,19 @@ var prafbe = {};
 
 
 
+prafbe.learn = function (dict, s)
+{
+  var tokens = prafbe.tokenize(s);
+  for (var i in tokens) {
+    var t = tokens[i];
+    var n = dict[t];
+    dict[t] = (n || 0) + 1;
+  }
+};
+
+
+
+
 prafbe.list_bigrams = function (s)
 {
   var bigrams = [];
