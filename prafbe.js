@@ -37,7 +37,7 @@ prafbe.calculate_spamness = function (right_dict, wrong_dict, token)
   } else if (w == 0) {
     return r <= 10 ? mp * 2 : mp;
   } else {
-    return Math.max(0.01, Math.min(0.99, wp / (rp + wp)));
+    return Math.max(mp, Math.min(1 - mp, wp / (rp + wp)));
   }
 };
 
