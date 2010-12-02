@@ -14,6 +14,8 @@ prafbe._learn = function (dict, s, d)
     var t = tokens[i];
     var n = dict[t];
     dict[t] = (n || 0) + d;
+    if (dict[t] < 0)
+      delete dict[t];
   }
 
   dict[prafbe.TOKEN_COUNT_KEY] = null;
