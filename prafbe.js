@@ -7,6 +7,21 @@ prafbe.UNFAMILIAR_TOKEN_PROBABILITY = 0.4;
 
 
 
+prafbe._learn = function (dict, s, d)
+{
+  var tokens = prafbe.tokenize(s);
+  for (var i in tokens) {
+    var t = tokens[i];
+    var n = dict[t];
+    dict[t] = (n || 0) + d;
+  }
+
+  dict[prafbe.TOKEN_COUNT_KEY] = null;
+};
+
+
+
+
 prafbe.calculate_spam_probability = function (probabilities)
 {
   var p1 = probabilities.
@@ -46,15 +61,8 @@ prafbe.calculate_spamness = function (right_dict, wrong_dict, token)
 
 prafbe.learn = function (dict, s)
 {
-  var tokens = prafbe.tokenize(s);
-  for (var i in tokens) {
-    var t = tokens[i];
-    var n = dict[t];
-    dict[t] = (n || 0) + 1;
-  }
-
-  dict[prafbe.TOKEN_COUNT_KEY] = null;
-};
+  return prafbe._learn(dict, s, 1);
+}
 
 
 
