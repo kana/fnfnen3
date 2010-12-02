@@ -24,9 +24,12 @@ prafbe._learn = function (dict, s, d)
 
 prafbe.calculate_spam_probability = function (probabilities)
 {
-  var p1 = probabilities.
+  var _probabilities = (0 < probabilities.length
+                        ? probabilities
+                        : [prafbe.UNFAMILIAR_TOKEN_PROBABILITY]);
+  var p1 = _probabilities.
            reduce(function (a, b) {return a * b;});
-  var p2 = probabilities.
+  var p2 = _probabilities.
            map(function (x) {return 1 - x;}).
            reduce(function (a, b) {return a * b;});
   return p1 / (p1 + p2);
