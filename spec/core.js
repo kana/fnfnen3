@@ -254,6 +254,29 @@ describe('Core', function () {
       _('(>_<)', []);
     });
   });
+  describe('unlearn', function () {
+    it('should count tokens correctly', function () {
+      var dict = {};
+
+      prafbe.unlearn(dict, 'love me do');
+      expect(dict['love']).toEqual(-1);
+      expect(dict['me']).toEqual(-1);
+      expect(dict['do']).toEqual(-1);
+      expect(dict['tender']).not.toBeDefined();
+
+      prafbe.unlearn(dict, 'love me tender');
+      expect(dict['love']).toEqual(-2);
+      expect(dict['me']).toEqual(-2);
+      expect(dict['do']).toEqual(-1);
+      expect(dict['tender']).toEqual(-1);
+
+      prafbe.unlearn(dict, 'love me love me tender');
+      expect(dict['love']).toEqual(-4);
+      expect(dict['me']).toEqual(-4);
+      expect(dict['do']).toEqual(-1);
+      expect(dict['tender']).toEqual(-2);
+    });
+  });
 });
 
 

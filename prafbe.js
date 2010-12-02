@@ -154,6 +154,14 @@ prafbe.tokenize = function (s)
 
 
 
+prafbe.unlearn = function (dict, s)
+{
+  return prafbe._learn(dict, s, -1);
+}
+
+
+
+
 // __END__
 // vim: expandtab shiftwidth=2 softtabstop=2
 // vim: foldmethod=marker
