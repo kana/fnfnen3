@@ -286,26 +286,26 @@ describe('Core', function () {
       prafbe.unlearn(dict, 'love me do');
       expect(dict['love']).toEqual(3);
       expect(dict['me']).toEqual(3);
-      expect(dict['do']).toEqual(0);
+      expect(dict['do']).not.toBeDefined();
       expect(dict['tender']).toEqual(2);
 
       prafbe.unlearn(dict, 'love me tender');
       expect(dict['love']).toEqual(2);
       expect(dict['me']).toEqual(2);
-      expect(dict['do']).toEqual(0);
+      expect(dict['do']).not.toBeDefined();
       expect(dict['tender']).toEqual(1);
 
       prafbe.unlearn(dict, 'love me love me tender');
-      expect(dict['love']).toEqual(0);
-      expect(dict['me']).toEqual(0);
-      expect(dict['do']).toEqual(0);
-      expect(dict['tender']).toEqual(0);
+      expect(dict['love']).not.toBeDefined();
+      expect(dict['me']).not.toBeDefined();
+      expect(dict['do']).not.toBeDefined();
+      expect(dict['tender']).not.toBeDefined();
 
       prafbe.unlearn(dict, 'love me');
       expect(dict['love']).not.toBeDefined();
       expect(dict['me']).not.toBeDefined();
-      expect(dict['do']).toEqual(0);
-      expect(dict['tender']).toEqual(0);
+      expect(dict['do']).not.toBeDefined();
+      expect(dict['tender']).not.toBeDefined();
     });
   });
 });
