@@ -64,6 +64,21 @@ prafbe.calculate_spamness = function (right_dict, wrong_dict, token)
 
 
 
+prafbe.compact = function (dict, opt_divisor)
+{
+  var divisor = opt_divisor || 10;
+  for (var i in dict) {
+    var n = Math.round(dict[i] / divisor);
+    if (0 < n)
+      dict[i] = n;
+    else
+      delete dict[i];
+  }
+}
+
+
+
+
 prafbe.learn = function (dict, s)
 {
   return prafbe._learn(dict, s, 1);

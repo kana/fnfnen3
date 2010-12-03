@@ -97,6 +97,28 @@ describe('Core', function () {
       expect(v_many).toBeLessThan(v_small);
     });
   });
+  describe('compact', function () {
+    it('should delete minor entries', function () {
+      var dict = {
+        'a': 1,
+        'b': 12,
+        'c': 123,
+        'd': 1234,
+      };
+
+      prafbe.compact(dict);
+      expect(dict['a']).not.toBeDefined();
+      expect(dict['b']).toEqual(1);
+      expect(dict['c']).toEqual(12);
+      expect(dict['d']).toEqual(123);
+
+      prafbe.compact(dict, 2);
+      expect(dict['a']).not.toBeDefined();
+      expect(dict['b']).toEqual(1);
+      expect(dict['c']).toEqual(6);
+      expect(dict['d']).toEqual(62);
+    });
+  });
   describe('learn', function () {
     it('should count tokens correctly', function () {
       var dict = {};
