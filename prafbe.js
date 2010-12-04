@@ -129,7 +129,7 @@ function (right_dict, wrong_dict, tokens, n, opt_with_extra_p)
   var most_interesting_pairs = (
     pairs
     .sort(function (a, b) {
-      return b[1] <= a[1] ? -1 : 1;
+      return b[1] - a[1];
     })
     .slice(0, n)
   );
