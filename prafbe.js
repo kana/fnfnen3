@@ -12,15 +12,22 @@ prafbe._learn = function (dict, s_or_tokens, d)
   var tokens = (typeof s_or_tokens == 'string'
                 ? prafbe.tokenize(s_or_tokens)
                 : s_or_tokens);
+  var sum = prafbe.sum_token_counts(dict);
+
   for (var i in tokens) {
     var t = tokens[i];
-    var n = dict[t];
-    dict[t] = (n || 0) + d;
-    if (dict[t] <= 0)
+    var n_old = dict[t];
+    var n_new = (n_old || 0) + d;
+    sum += d;
+    if (0 < n_new) {
+      dict[t] = n_new;
+    } else {
       delete dict[t];
+      sum += -n_new;
+    }
   }
 
-  dict[prafbe.TOKEN_COUNT_KEY] = null;
+  dict[prafbe.TOKEN_COUNT_KEY] = sum;
 };
 
 

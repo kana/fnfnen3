@@ -244,18 +244,42 @@ describe('Core', function () {
     it('should cache result', function () {
       var d = {};
 
+      // The cache is calculated if it's not calculated yet.
       expect(prafbe.sum_token_counts(d)).toEqual(0);
       expect(d[prafbe.TOKEN_COUNT_KEY]).toEqual(0);
 
+      // Direct modification is not counted.  Return the cache as-is.
       d['a'] = 2;
       expect(prafbe.sum_token_counts(d)).toEqual(0);
 
+      // The cache is returned as-is.
       d[prafbe.TOKEN_COUNT_KEY] = 8;
       expect(prafbe.sum_token_counts(d)).toEqual(8);
 
+      // prafbe.learn() modifies the cache.
       prafbe.learn(d, 'love me love me tender');
+      expect(d[prafbe.TOKEN_COUNT_KEY]).toEqual(8 + 5);
+      expect(prafbe.sum_token_counts(d)).toEqual(8 + 5);
+
+      // The cache is recalculated if it's cleared.
+      d[prafbe.TOKEN_COUNT_KEY] = null;
       expect(d[prafbe.TOKEN_COUNT_KEY]).toEqual(null);
-      expect(prafbe.sum_token_counts(d)).toEqual(2 + 5);
+      expect(prafbe.sum_token_counts(d)).toEqual(7);
+
+      // prafbe.unlearn() modifies the cache.
+      prafbe.unlearn(d, 'love');
+      expect(d[prafbe.TOKEN_COUNT_KEY]).toEqual(6);
+      expect(prafbe.sum_token_counts(d)).toEqual(6);
+
+      // prafbe.unlearn() again.  Now the count of 'love' is zero.
+      prafbe.unlearn(d, 'love');
+      expect(d[prafbe.TOKEN_COUNT_KEY]).toEqual(5);
+      expect(prafbe.sum_token_counts(d)).toEqual(5);
+
+      // The count of 'love' is already zero.  Nothing happens.
+      prafbe.unlearn(d, 'love');
+      expect(d[prafbe.TOKEN_COUNT_KEY]).toEqual(5);
+      expect(prafbe.sum_token_counts(d)).toEqual(5);
     });
   });
   describe('tokenize', function () {
