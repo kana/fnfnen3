@@ -112,10 +112,9 @@ function (right_dict, wrong_dict, tokens, n, opt_with_extra_p)
   for (var i in tokens) {
     var t = tokens[i];
     if (!(found[t])) {
-      var p = Math.abs(
-        0.5 - prafbe.calculate_spamness(right_dict, wrong_dict, t)
-      );
-      pairs.push([t, p]);
+      var probability = prafbe.calculate_spamness(right_dict, wrong_dict, t)
+      var score = Math.abs(0.5 - probability);
+      pairs.push([t, score, probability]);
       found[t] = true;
     }
   }

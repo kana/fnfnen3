@@ -219,6 +219,7 @@ describe('Core', function () {
       
       expect(typeof xs[0][0]).toEqual(typeof '');
       expect(xs[0][1]).toEqual(Math.abs(0.5 - p));
+      expect(xs[0][2]).toEqual(p);
     });
     it('should list distinct tokens', function () {
       var rd = {'a': 999, 'b': 888, 'c': 777, 'd': 0};
