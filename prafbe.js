@@ -103,9 +103,9 @@ prafbe.list_bigrams = function (s)
 
 
 prafbe.list_most_interesting_tokens =
-function (right_dict, wrong_dict, tokens, n, with_probability_p)
+function (right_dict, wrong_dict, tokens, n, opt_with_extra_p)
 {
-  with_probability_p = (with_probability_p || false);
+  var with_extra_p = (opt_with_extra_p || false);
 
   var pairs = [];
   var found = {};
@@ -128,7 +128,7 @@ function (right_dict, wrong_dict, tokens, n, with_probability_p)
     .slice(0, n)
   );
   return (
-    with_probability_p
+    with_extra_p
     ? most_interesting_pairs
     : most_interesting_pairs.map(function (x) {return x[0];})
   );

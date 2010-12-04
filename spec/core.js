@@ -207,7 +207,7 @@ describe('Core', function () {
       expect(prafbe.list_most_interesting_tokens(rd, wd, tokens, 5)).
       toEqual(['n', 'i', 'd', 's', 'x']);
     });
-    it('can list tokens with probabilities', function () {
+    it('can list tokens with extra information', function () {
       var xs = prafbe.list_most_interesting_tokens(
         {},
         {},
@@ -215,9 +215,10 @@ describe('Core', function () {
         15,
         true
       );
+      var p = prafbe.UNFAMILIAR_TOKEN_PROBABILITY;
       
       expect(typeof xs[0][0]).toEqual(typeof '');
-      expect(typeof xs[0][1]).toEqual(typeof 0);
+      expect(xs[0][1]).toEqual(Math.abs(0.5 - p));
     });
     it('should list distinct tokens', function () {
       var rd = {'a': 999, 'b': 888, 'c': 777, 'd': 0};
