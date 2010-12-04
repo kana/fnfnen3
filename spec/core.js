@@ -141,6 +141,21 @@ describe('Core', function () {
       expect(dict['do']).toEqual(1);
       expect(dict['tender']).toEqual(2);
     });
+    it('should accept an array of tokens instead of a string', function () {
+      var dict = {};
+
+      prafbe.learn(dict, 'love me tender');
+      expect(dict['love']).toEqual(1);
+      expect(dict['me']).toEqual(1);
+      expect(dict['tender']).toEqual(1);
+      expect(dict['love me tender']).not.toBeDefined();
+
+      prafbe.learn(dict, ['love me tender']);
+      expect(dict['love']).toEqual(1);
+      expect(dict['me']).toEqual(1);
+      expect(dict['tender']).toEqual(1);
+      expect(dict['love me tender']).toEqual(1);
+    });
   });
   describe('list_bigrams', function () {
     it('should list bigrams of a plain ascii string', function () {

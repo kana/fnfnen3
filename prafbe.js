@@ -7,9 +7,11 @@ prafbe.UNFAMILIAR_TOKEN_PROBABILITY = 0.4;
 
 
 
-prafbe._learn = function (dict, s, d)
+prafbe._learn = function (dict, s_or_tokens, d)
 {
-  var tokens = prafbe.tokenize(s);
+  var tokens = (typeof s_or_tokens == 'string'
+                ? prafbe.tokenize(s_or_tokens)
+                : s_or_tokens);
   for (var i in tokens) {
     var t = tokens[i];
     var n = dict[t];
