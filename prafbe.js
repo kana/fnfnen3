@@ -83,6 +83,7 @@ prafbe.compact = function (dict, opt_divisor)
     else
       delete dict[i];
   }
+  delete dict[prafbe.TOKEN_COUNT_KEY];
 }
 
 

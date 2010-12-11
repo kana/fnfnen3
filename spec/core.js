@@ -118,6 +118,30 @@ describe('Core', function () {
       expect(dict['c']).toEqual(6);
       expect(dict['d']).toEqual(62);
     });
+    it('should update the cache for token count', function () {
+      var d = {};
+
+      prafbe._learn(d, 'a', 52);
+      prafbe._learn(d, 'b', 52);
+      prafbe._learn(d, 'c', 52);
+      prafbe._learn(d, 'd', 52);
+      expect(prafbe.sum_token_counts(d)).toEqual(208);
+
+      // Math.round(208 / 10) => 21
+      // Math.round(52 / 10) * 4 => 20
+      prafbe.compact(d, 10)
+      expect(prafbe.sum_token_counts(d)).toEqual(20);
+
+      // Math.round(21 / 10) => 2
+      // Math.round(5 / 10) * 4 => 4
+      prafbe.compact(d, 10)
+      expect(prafbe.sum_token_counts(d)).toEqual(4);
+
+      // Math.round(2 / 10) => 0
+      // Math.round(1 / 10) * 4 => 0
+      prafbe.compact(d, 10)
+      expect(prafbe.sum_token_counts(d)).toEqual(0);
+    });
   });
   describe('learn', function () {
     it('should count tokens correctly', function () {
