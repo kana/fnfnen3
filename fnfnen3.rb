@@ -33,6 +33,8 @@ require 'sinatra'
 class Fnfnen3 < Sinatra::Application
   ApplicationName = 'Fnfnen3'
 
+  disable :logging
+
   get '/' do
     haml :index
   end
