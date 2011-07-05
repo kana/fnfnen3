@@ -30,6 +30,8 @@ require 'sinatra'
 
 
 class Fnfnen3 < Sinatra::Application
+  ApplicationName = 'Fnfnen3'
+
   get '/' do
     'Hello, Sinatra!'
   end
