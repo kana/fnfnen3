@@ -24,6 +24,7 @@
 #     OTHER DEALINGS IN THE SOFTWARE.
 # }}}
 
+require 'haml'
 require 'sinatra'
 
 
@@ -33,7 +34,7 @@ class Fnfnen3 < Sinatra::Application
   ApplicationName = 'Fnfnen3'
 
   get '/' do
-    'Hello, Sinatra!'
+    haml :index
   end
 end
 
