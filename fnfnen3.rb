@@ -29,8 +29,10 @@ require 'sinatra'
 
 
 
-get '/' do
-  'Hello, Sinatra!'
+class Fnfnen3 < Sinatra::Application
+  get '/' do
+    'Hello, Sinatra!'
+  end
 end
 
 
