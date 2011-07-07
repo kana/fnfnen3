@@ -38,7 +38,7 @@ class Fnfnen3 < Sinatra::Application
   disable :logging
   enable :sessions
 
-  before %r{^(?!/sign_in$)} do
+  before %r{^(?!/(sign_in|sign_out)$)} do
     s = session
 
     if not (s[:request_token_token] and s[:request_token_secret]) then
@@ -81,6 +81,22 @@ class Fnfnen3 < Sinatra::Application
     session[:access_token_secret] = nil
 
     redirect request_token.authorize_url :oauth_callback => callback_url
+  end
+
+  get '/sign_out' do
+    safe_keys = [:consumer_key, :consumer_secret]
+    h = {}
+    safe_keys.each do |k|
+      h[k] = session[k]
+    end
+
+    session.clear
+
+    safe_keys.each do |k|
+      session[k] = h[k]
+    end
+
+    redirect to('/')
   end
 
   def callback_url
