@@ -66,6 +66,10 @@ class Fnfnen3 < Sinatra::Application
     haml :index
   end
 
+  get '/api/:version/*.:format' do |version, api_name, format|
+    call_twitter_api :get, version, api_name, format
+  end
+
   get '/sign_in' do
     haml :sign_in
   end
@@ -99,6 +103,27 @@ class Fnfnen3 < Sinatra::Application
     redirect to('/')
   end
 
+  def access_token
+    OAuth::AccessToken.new(
+      consumer,
+      session[:access_token_token],
+      session[:access_token_secret]
+    )
+  end
+
+  def call_twitter_api(method, version, api_name, format)
+    parameters = request.query_string
+    response = access_token.request(
+      method,
+      "http://api.twitter.com/#{version}/#{api_name}.#{format}?#{parameters}"
+    )
+    [
+      response.code.to_i,
+      response.header.to_hash.keep_if {|k, _| k.downcase != 'status'},
+      response.body
+    ]
+  end
+
   def callback_url
     url('/')
   end
@@ -112,7 +137,11 @@ class Fnfnen3 < Sinatra::Application
   end
 
   def deny_unauthorized_access
-    redirect to('/sign_in')
+    if request.path_info.start_with? '/api'
+      halt 403
+    else
+      redirect to('/sign_in')
+    end
   end
 
   def twitter
