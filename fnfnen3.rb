@@ -42,7 +42,7 @@ class Fnfnen3 < Sinatra::Application
     s = session
 
     if not (s[:request_token_token] and s[:request_token_secret]) then
-      redirect to('/sign_in')
+      deny_unauthorized_access
     end
 
     if not (s[:access_token_token] and s[:access_token_secret]) then
@@ -57,7 +57,7 @@ class Fnfnen3 < Sinatra::Application
         s[:access_token_secret] = access_token.secret
         redirect to('/')
       rescue OAuth::Unauthorized
-        redirect to('/sign_in')
+        deny_unauthorized_access
       end
     end
   end
@@ -109,6 +109,10 @@ class Fnfnen3 < Sinatra::Application
       params[:consumer_secret],
       :site => 'https://api.twitter.com/'
     )
+  end
+
+  def deny_unauthorized_access
+    redirect to('/sign_in')
   end
 
   def twitter
