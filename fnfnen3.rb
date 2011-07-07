@@ -105,8 +105,8 @@ class Fnfnen3 < Sinatra::Application
 
   def consumer
     OAuth::Consumer.new(
-      params[:consumer_key],
-      params[:consumer_secret],
+      params[:consumer_key] || session[:consumer_key],
+      params[:consumer_secret] || session[:consumer_secret],
       :site => 'https://api.twitter.com/'
     )
   end
