@@ -70,6 +70,10 @@ class Fnfnen3 < Sinatra::Application
     call_twitter_api :get, version, api_name, format
   end
 
+  post '/api/:version/*.:format' do |version, api_name, format|
+    call_twitter_api :post, version, api_name, format
+  end
+
   get '/sign_in' do
     haml :sign_in
   end
@@ -115,7 +119,8 @@ class Fnfnen3 < Sinatra::Application
     parameters = request.query_string
     response = access_token.request(
       method,
-      "http://api.twitter.com/#{version}/#{api_name}.#{format}?#{parameters}"
+      "http://api.twitter.com/#{version}/#{api_name}.#{format}?#{parameters}",
+      request.body
     )
     [
       response.code.to_i,
