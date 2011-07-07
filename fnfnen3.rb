@@ -27,6 +27,7 @@
 require 'haml'
 require 'oauth'
 require 'sinatra'
+require 'twitter'
 
 
 
@@ -92,6 +93,17 @@ class Fnfnen3 < Sinatra::Application
       params[:consumer_secret],
       :site => 'https://api.twitter.com/'
     )
+  end
+
+  def twitter
+    t = Twitter::Client.new
+
+    t.consumer_key = session[:consumer_key]
+    t.consumer_secret = session[:consumer_secret]
+    t.oauth_token = session[:access_token_token]
+    t.oauth_token_secret = session[:access_token_secret]
+
+    t
   end
 end
 
