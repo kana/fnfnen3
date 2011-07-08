@@ -1,0 +1,295 @@
+/* fnfnen, a web-based twitter client
+ * Version: @@VERSION@@
+ * Copyright (C) 2009-2010 kana <http://whileimautomaton.net/>
+ * License: MIT license  {{{
+ *     Permission is hereby granted, free of charge, to any person
+ *     obtaining a copy of this software and associated documentation
+ *     files (the "Software"), to deal in the Software without
+ *     restriction, including without limitation the rights to use,
+ *     copy, modify, merge, publish, distribute, sublicense, and/or
+ *     sell copies of the Software, and to permit persons to whom the
+ *     Software is furnished to do so, subject to the following
+ *     conditions:
+ *
+ *     The above copyright notice and this permission notice shall be
+ *     included in all copies or substantial portions of the Software.
+ *
+ *     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ *     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ *     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ *     NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ *     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ *     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ *     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ *     OTHER DEALINGS IN THE SOFTWARE.
+ * }}}
+ */
+/* Structure  {{{1*/
+
+*
+{
+  margin: 0;
+  padding: 0;
+}
+
+body
+{
+  margin: 0 5%;
+}
+
+#copyright_notice
+{
+  font-size: 80%;
+  margin: 1em 0;
+}
+
+
+#console
+{
+  margin: 1em 0;
+}
+#console #tweet_box
+{
+  font-size: medium;
+  width: 80%;
+}
+#information_bar
+{
+  font-size: 80%;
+  text-align: right;
+}
+#information_bar #requesting_status
+{
+  bottom: 0;
+  display: block;
+  padding: 1ex;
+  position: fixed;
+  right: 0;
+}
+
+
+#tweet_content_counter
+{
+  padding: 0 0.5ex;
+}
+
+
+.column
+{
+  margin: 1em 0;
+}
+
+
+#column_selectors
+{
+  margin: 0 0;
+  border-bottom: thin solid;
+}
+.column_selector
+{
+  border-style: solid;
+  border-width: thin;
+  margin-left: 1em;
+  padding: 0 0.5em 0;
+}
+.column_selector.active {border-bottom-width: medium;}
+.column_selector:first-child {margin-left: 0;}
+
+
+#balloon_container
+{
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+.balloon
+{
+  margin: 1em;
+  padding: 0.5ex;
+  border: 0.5ex solid;
+}
+
+
+.tweet_hub
+{
+  border-top: medium solid;
+}
+
+
+.tweet
+{
+  border-top: solid thin;
+  padding: 1ex;
+}
+
+.tweet .main {display: inline-block; width: 80%;}
+.tweet .meta {display: inline-block; width: 20%; text-align: right;}
+
+.tweet * {vertical-align: middle;}
+.tweet .posted_time {font-size: 80%; white-space: nowrap;}
+.tweet .screen_name,
+.tweet .posted_time,
+.tweet .text {margin: 0 0.5ex;}
+.tweet .text .screen_name {margin: 0;}
+.tweet .user_icon img {width: 1em; height: 1em;}
+
+/*
+----------------------------------------
+|      | @screen_name abc def ghi jkl  |
+| ICON | mno pqr stu vwx yzzzz. abc!!! |
+|      | 2010-02-20T16:23:58 * <       |
+----------------------------------------
+.tweet {clear: both; min-height: 48px;}
+.tweet .user_icon img {float: left; width: 48px; height: 48px;}
+.tweet .user_icon img {margin-right: 1ex;}
+.tweet .posted_time {white-space: nowrap;}
+*/
+
+.tweet .button
+{
+  border: thin solid;
+  font-size: 64%;
+  padding: 0 0.5ex;
+}
+.tweet .button:active,
+.tweet .button:focus,
+.tweet .button:hover
+{
+  border: thin solid;
+}
+
+
+#form_preferences {margin: 1em  0;}
+dd {margin-left: 5%;}
+dd, #button_to_toggle_advanced_preferences {margin-bottom: 1em;}
+dd.submit {margin: 0;}
+
+
+.log
+{
+  border-top: solid thin;
+  padding: 1ex;
+}
+
+
+
+
+/* Decoration  {{{1*/
+
+#console #tweet_box {font-family: sans-serif;}
+
+
+.column_selector {cursor: pointer;}
+.active.column_selector .label {font-weight: bolder;}
+.column_selector .button {vertical-align: super;}
+
+
+.tweet .screen_name {font-weight: bolder; text-decoration: none;}
+.tweet .text .screen_name {font-weight: normal;}
+.tweet .posted_time {text-decoration: none;}
+
+.tweet .button {font-weight: bolder; text-decoration: none;}
+
+.tweet .debug {display: none;}
+
+
+#tweet_content_counter {font-weight: bolder;}
+
+
+#copyright_notice {text-align: right;}
+
+
+.invisible {display: none;}
+
+
+.balloon .from {font-weight: bolder;}
+.balloon .from:after {content: ': ';}
+.balloon .message {}
+
+
+.log .date:after {content: ': ';}
+.log .type:after {content: ': ';}
+.log .from:after {content: ': ';}
+.log .message:after {}
+
+
+
+
+/* Color  {{{1*/
+
+body {color: #000; background-color: #eee;}
+
+
+.column {border-color: #ddd;}
+#column_selectors {border-color: #999;}
+.column_selector {color: #333; background-color: #ccc; border-color: #999;}
+.column_selector.active {background-color: #eee; border-bottom-color: #eee;}
+.column_selector.unread {background-color: #eec;}
+
+
+.tweet_hub,
+.tweet {border-color: #ccc;}
+.tweet:active,
+.tweet:focus,
+.tweet:hover {background-color: #ffe !important;}
+
+.tweet.mention {background-color: #fed;}
+.tweet.mine {background-color: #efe;}
+.tweet.spam {background-color: #ddd;}
+
+.tweet.score0 {color: #000000;}
+.tweet.score1 {color: #141414;}
+.tweet.score2 {color: #282828;}
+.tweet.score3 {color: #3d3d3d;}
+.tweet.score4 {color: #515151;}
+.tweet.score5 {color: #666666;}
+.tweet.score6 {color: #7a7a7a;}
+.tweet.score7 {color: #8e8e8e;}
+.tweet.score8 {color: #a3a3a3;}
+.tweet.score9 {color: #b7b7b7;}
+
+.tweet .posted_time {color: #666;}
+.tweet .screen_name {color: #000;}
+.tweet .text .screen_name {color: #00f;}
+
+.tweet .button {background-color: #999; border-color: #ccc; color: #fff;}
+.tweet .button:active,
+.tweet .button:focus,
+.tweet .button:hover {background-color: #ff3; border-color: #990; color: #000;}
+
+
+#tweet_content_counter {color: #fff;}
+#tweet_content_counter,
+#tweet_content_counter.no_content {background-color: #333;}
+#tweet_content_counter.some_content {background-color: #666;}
+#tweet_content_counter.full_content {background-color: #f90;}
+#tweet_content_counter.much_content {background-color: #f00;}
+
+
+#information_bar {color: #333;}
+#information_bar #requesting_status
+{
+  background-color: #fff;
+  color: #000;
+  opacity: 0.8;
+}
+
+
+.balloon {background-color: #fff; border-color: #666;}
+
+
+.log {border-color: #ccc;}
+.log.error {color: #900;}
+.log.notice {}
+
+.log .date {color: #666;}
+.log .type {color: #000;}
+.log .from {color: #666;}
+.log .message {}
+
+
+
+
+/* __END__ {{{1*/
+/* vim: foldmethod=marker
+ */
