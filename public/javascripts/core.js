@@ -1497,7 +1497,7 @@ function tokenize_tweet(tweet)  //{{{2
 
 
 // Preference  {{{1
-// FIXME: Warn about some preferences require to reload fnfnen to take effect.
+// FIXME: Warn about some preferences require to reload Fnfnen3 to take effect.
 function Preference(id, default_value, opt_kw)  //{{{2
 {
   var kw = opt_kw || {};
@@ -2315,7 +2315,7 @@ function initialize(steps)  //{{{2
 
 
 $(document).ready(function () {  //{{{2
-  var executed_in_valid_application_page_p = /fnfnen/.test($('title').text());
+  var executed_in_valid_application_page_p = /Fnfnen3/.test($('title').text());
   if (!executed_in_valid_application_page_p)
     return;  // Skip bootstrap; it seems to be executed as a part of tests.
 
