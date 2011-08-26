@@ -2355,26 +2355,6 @@ $(document).ready(function () {  //{{{2
         $('#requesting_status').hide();
       },
     },  //}}}
-    initialize_oauth: {  //{{{
-      requirements: [],
-      procedure: function () {
-        var oauth_consumer_key = $.storage('form_oauth_consumer_key_value');
-        var oauth_consumer_secret = $.storage('form_consumer_secret_value');
-        var oauth_token = $.storage('access_token');
-        var oauth_token_secret = $.storage('access_secret');
-        if (oauth_consumer_key == null
-            || oauth_consumer_secret == null
-            || oauth_token == null
-            || oauth_token_secret == null)
-        {
-          location.href = 'oauth/phase1.html';
-        }
-        $('#request_form *[name="oauth_token"]').val(oauth_token);
-        $('#request_form *[name="oauth_consumer_key"]').val(oauth_consumer_key);
-        $('#secret_form *[name="consumer_secret"]').val(oauth_consumer_secret);
-        $('#secret_form *[name="token_secret"]').val(oauth_token_secret);
-      },
-    },  //}}}
     initialize_parameters: {  //{{{
       requirements: [],
       procedure: function () {
