@@ -34,9 +34,6 @@
     %script(type='text/javascript' src='/javascripts/jquery.js')
     %script(type='text/javascript' src='/javascripts/jquery.json.js')
     %script(type='text/javascript' src='/javascripts/jquery.storage.js')
-    %script(type='text/javascript' src='/javascripts/oauth/oauth.js')
-    %script(type='text/javascript' src='/javascripts/oauth/common.js')
-    %script(type='text/javascript' src='/javascripts/oauth/sha1.js')
     %script(type='text/javascript' src='/javascripts/prafbe.js')
     %script(type='text/javascript' src='/javascripts/core.js')
     %meta(name='viewport' content='width=320')
@@ -59,51 +56,17 @@
       -# See append_column() in core.js for the details.
 
     #console
-      %form#post_form(action='http://api.twitter.com/1/statuses/update.json' method='post')
+      %form#post_form(action='__dummy__' method='post')
         %div
           %input#tweet_box(type='text' name='status' size='140' value='...')
         %div
           %input(type='submit' value='Update')
           %span#tweet_content_counter 140
       %form#request_form(class='invisible' action='__dummy__')
-        %table(summary='Parameters to be sent for OAuth.  All forms in this table are visible for debugging, but they should be type="hidden".')
-          %tr
-            %th oauth_consumer_key
-            %td
-              %input(name='oauth_consumer_key' type='text' value='')
-          %tr
-            %th oauth_nonce
-            %td
-              %input(name='oauth_nonce' type='text' value='')
-          %tr
-            %th oauth_signature
-            %td
-              %input(name='oauth_signature' type='text' value='')
-          %tr
-            %th oauth_signature_method
-            %td
-              %input(name='oauth_signature_method' type='text' value='HMAC-SHA1')
-          %tr
-            %th oauth_timestamp
-            %td
-              %input(name='oauth_timestamp' type='text' value='')
-          %tr
-            %th oauth_token
-            %td
-              %input(name='oauth_token' type='text' value='')
+        %table(summary='Parameters to be sent to Twitter API.  All forms in this table are visible for debugging, but they should be type="hidden".')
           %tr
             %th additional arguments
             %td#additional_arguments
-      %form#secret_form(class='invisible' action='__dummy__' method='get')
-        %table(summary='Secret parameters to calculate values for OAuth.  All forms in this table are visible for debugging, but they should be type="hidden".')
-          %tr
-            %th consumer_secret
-            %td
-              %input(name='consumer_secret' type='text' value='')
-          %tr
-            %th token_secret
-            %td
-              %input(name='token_secret' type='text' value='')
 
     #columns
       .predefined.column#column_preferences(title='Preferences')

@@ -60,7 +60,7 @@ var HOME_COLUMN_NAME = 'Home';
 var LAST_APPLYING_PRIORITY = 1000;
 var MAX_TWEET_CONTENT = 140;
 var MINIMUM_UPDATE_INTERVAL_SEC = 1 * 60;
-var TWITTER_API_URI = 'http://api.twitter.com/1/';
+var TWITTER_API_URI = '/api/1/';
 var TWITTER_SEARCH_URI = 'http://search.twitter.com/search?q=';
 var TWITTER_UI_URI = 'http://twitter.com/';
 
@@ -164,7 +164,7 @@ function before_post()  //{{{2
     from: 'Post',
     method: $('#post_form').attr('method'),
     parameters: parameters,
-    uri: $('#post_form').attr('action'),
+    uri: TWITTER_API_URI + 'statuses/update.json',
   });
 
   // Clear stuffs.
@@ -1876,7 +1876,6 @@ function process_queued_api_request_with_oauth()  //{{{2
     e.val(request.parameters[name]);
     $('#request_form #additional_arguments').append(e);
   }
-  consumer.sign_form($('#request_form').get(0), $('#secret_form').get(0));
 
   // Send a request.
   //
