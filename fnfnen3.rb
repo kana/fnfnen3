@@ -24,6 +24,7 @@
 #     OTHER DEALINGS IN THE SOFTWARE.
 # }}}
 
+require 'cgi'
 require 'haml'
 require 'oauth'
 require 'sinatra'
@@ -116,11 +117,14 @@ class Fnfnen3 < Sinatra::Application
   end
 
   def call_twitter_api(method, version, api_name, format)
-    parameters = request.query_string
+    parameters =
+      request.params.
+      to_a.
+      map {|key, value| key + '=' + CGI.escape(value)}.
+      join '&'
     response = access_token.request(
       method,
-      "http://api.twitter.com/#{version}/#{api_name}.#{format}?#{parameters}",
-      request.body
+      "http://api.twitter.com/#{version}/#{api_name}.#{format}?#{parameters}"
     )
     [
       response.code.to_i,
