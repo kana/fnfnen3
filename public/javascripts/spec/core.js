@@ -11,7 +11,7 @@ describe('Core', function () {
       created_at: 'Wed Sep 08 14:01:49 +0000 2010',
       id: 18,
       id_str: '81',
-      in_reply_to_status_id: null,
+      in_reply_to_status_id_str: null,
       favorited: false,
       text: '@ujm hi http://hi.hi/#hi hi',
       user: {
@@ -125,8 +125,8 @@ describe('Core', function () {
         t_meta_end,
       ]));
     });
-    it('should reflect "in_reply_to_status_id" status', function () {
-      var t = $.extend({}, tweet, {in_reply_to_status_id: 8181});
+    it('should reflect "in_reply_to_status_id_str" status', function () {
+      var t = $.extend({}, tweet, {in_reply_to_status_id_str: '8181'});
       expect(html_from_tweet(t)).toEqual(string_from_tree([
         t_main_begin,
         t_prafbe_information,

@@ -291,7 +291,7 @@ function html_from_tweet(tweet)  //{{{2
       '&#x21b5;',  // Carriage return symbol
     ],
     button_to_show_conversation: (
-      tweet.in_reply_to_status_id
+      tweet.in_reply_to_status_id_str
       ? [
         'a',
         [
@@ -561,7 +561,7 @@ function list_tweets_in_conversation_n2o(tweet_id)
 
     tweets_in_conoversation_n2o.push(tweet);
 
-    id = tweet.in_reply_to_status_id;
+    id = tweet.in_reply_to_status_id_str;
   }
 
   return tweets_in_conoversation_n2o;
@@ -572,7 +572,7 @@ function complete_missing_tweets_in_a_conversation(tweets_n2o, node_column)
 {
   var fetch_next_tweet = function (tweets_n2o) {
     var oldest_tweet = tweets_n2o[tweets_n2o.length - 1];
-    var next_tweet_id = oldest_tweet.in_reply_to_status_id;
+    var next_tweet_id = oldest_tweet.in_reply_to_status_id_str;
     if (next_tweet_id) {
       var next_tweets_n2o = list_tweets_in_conversation_n2o(next_tweet_id);
       if (1 <= next_tweets_n2o.length) {
