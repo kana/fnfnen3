@@ -1737,6 +1737,8 @@ function TweetDatabase()  //{{{2
     for (i in new_tweets) {
       var tweet = new_tweets[i];
       if (!this.has_p(tweet)) {
+        this.normalize_text(tweet);
+
         this._db[tweet.id_str] = tweet;
 
         // Learn new tweets automatically.
