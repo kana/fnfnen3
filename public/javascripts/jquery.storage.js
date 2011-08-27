@@ -1,4 +1,4 @@
-// Fnfnen3, a web-based twitter client
+// fnfnen3, a web-based twitter client
 // Version: @@VERSION@@
 // Copyright (C) 2009-2011 kana <http://whileimautomaton.net/>
 // License: So-called MIT/X license  {{{
