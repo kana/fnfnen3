@@ -151,6 +151,7 @@ function before_post()  //{{{2
   parameters.status = text;
   if (g_tweet_id_to_reply)
     parameters.in_reply_to_status_id = g_tweet_id_to_reply;
+  parameters.include_entities = true;
 
   request_twitter_api_with_oauth({
     callback: function (response) {
@@ -588,6 +589,7 @@ function complete_missing_tweets_in_a_conversation(tweets_n2o, node_column)
           },
           from: 'Conversation',
           method: 'get',
+          parameters: {include_entities: true},
           uri: TWITTER_API_URI + 'statuses/show/' + next_tweet_id + '.json',
         });
       }
@@ -790,6 +792,7 @@ function update()  //{{{3
     method: 'get',
     parameters: {
       count: g_preferences.maximum_number_of_tweets_to_fetch(),
+      include_entities: true,
       since_id: g_since_id_home,
     },
     uri: TWITTER_API_URI + 'statuses/home_timeline.json',
@@ -802,6 +805,7 @@ function update()  //{{{3
     method: 'get',
     parameters: {
       count: g_preferences.maximum_number_of_tweets_to_fetch(),
+      include_entities: true,
       since_id: g_since_id_mentions,
     },
     uri: TWITTER_API_URI + 'statuses/mentions.json',
