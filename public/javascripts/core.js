@@ -594,7 +594,7 @@ function complete_missing_tweets_in_a_conversation(tweets_n2o, node_column)
     }
   };
   var append_tweets_n2o = function (next_tweets_n2o) {
-    tweet_db.add(next_tweets_n2o);
+    tweet_db.add(next_tweets_n2o, 'conversation');
 
     // Conversation column may be deleted by user while completing tweets.
     var column_exists_p = (0 < node_column.parent().length);
@@ -759,7 +759,7 @@ function queue_tweets_n2o(tweets_n2o, queue_id)  //{{{3
     var merged_tweets_n2o = merge_tweets_n2o(g_tweet_queues);
 
     $('#last_updated_time').text('Last updated: ' + new Date().toString());
-    tweet_db.add(merged_tweets_n2o);
+    tweet_db.add(merged_tweets_n2o, 'timeline');
     update_censored_columns(merged_tweets_n2o);
 
     g_tweet_queues = {};
@@ -814,7 +814,7 @@ function update_with_given_tweet(tweet)  //{{{3
 {
   if (!(tweet_db.has_p(tweet)))
   {
-    tweet_db.add([tweet]);
+    tweet_db.add([tweet], 'post');
     update_censored_columns([tweet]);
   }
   return;
@@ -1728,22 +1728,27 @@ function TweetDatabase()  //{{{2
   this._db = {};  // tweet_id: tweet
   this._data_db = {};  // tweet_id: {arbitrary_key: arbitrary_value}
 
-  this.add = function (new_tweets) {
+  this.add = function (new_tweets, source) {
     for (i in new_tweets) {
       var tweet = new_tweets[i];
       if (!this.has_p(tweet)) {
         this._db[tweet.id_str] = tweet;
 
         // Learn new tweets automatically.
-        //
-        // To simplify the code, old tweets are treated as learned ones even
-        // if they aren't actually learned.  For example, show_conversation()
-        // may fetch tweets which are not learned yet.  But it's rare to occur
-        // and such old tweets should be filtered well.
-        if (compare_tweet_ids(g_preferences.last_learned_tweet_id(),
-                              tweet.id_str)
-            < 0)
-        {
+        if (source == 'timeline') {
+          // To simplify the code, old tweets are treated as learned ones even
+          // if they aren't actually learned.  Such case is rare and it's not
+          // a big problem in most situations.
+          if (compare_tweet_ids(g_preferences.last_learned_tweet_id(),
+                                tweet.id_str)
+              < 0)
+          {
+            learn_tweet(tweet.id_str, !is_spam_tweet_p(tweet), false);
+          }
+        } else if (source == 'post' || source == 'conversation') {
+          learn_tweet(tweet.id_str, !is_spam_tweet_p(tweet), false);
+        } else {
+          log_error('Tweet database', 'Unknown source: ' + String(source));
           learn_tweet(tweet.id_str, !is_spam_tweet_p(tweet), false);
         }
       }
