@@ -14,6 +14,7 @@ describe('Core', function () {
       in_reply_to_status_id_str: null,
       favorited: false,
       text: '@ujm hi http://hi.hi/#hi hi',
+      normalized_text: '@ujm hi http://hi.hi/#hi hi',
       user: {
         screen_name: 'kana1',
         profile_image_url: './avatar.png',

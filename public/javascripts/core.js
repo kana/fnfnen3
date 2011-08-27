@@ -265,7 +265,7 @@ function html_from_tweet(tweet)  //{{{2
         '@',
         ['class', 'text'],
       ],
-      make_links_in_text(tweet.text),
+      make_links_in_text(tweet.normalized_text),
     ],
     posted_time: [
       'a',
