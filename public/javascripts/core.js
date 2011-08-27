@@ -1729,6 +1729,7 @@ function TweetDatabase()  //{{{2
   this._data_db = {};  // tweet_id: {arbitrary_key: arbitrary_value}
 
   this.add = function (new_tweets, source) {
+    var learned_tweet_ids = [];
     for (i in new_tweets) {
       var tweet = new_tweets[i];
       if (!this.has_p(tweet)) {
@@ -1744,20 +1745,24 @@ function TweetDatabase()  //{{{2
               < 0)
           {
             learn_tweet(tweet.id_str, !is_spam_tweet_p(tweet), false);
+            learned_tweet_ids.push(tweet.id_str);
           }
         } else if (source == 'post' || source == 'conversation') {
           learn_tweet(tweet.id_str, !is_spam_tweet_p(tweet), false);
+          // To avoid interference with source 'timeline',
+          // this tweet id is not pushed into learned_tweet_ids.
         } else {
           log_error('Tweet database', 'Unknown source: ' + String(source));
           learn_tweet(tweet.id_str, !is_spam_tweet_p(tweet), false);
+          // To avoid interference with source 'timeline',
+          // this tweet id is not pushed into learned_tweet_ids.
         }
       }
     }
 
-    var tweet_ids = new_tweets.map(function (t) {return t.id_str;});
-    tweet_ids.push(g_preferences.last_learned_tweet_id());
+    learned_tweet_ids.push(g_preferences.last_learned_tweet_id());
     g_preferences.last_learned_tweet_id(
-      tweet_ids.reduce(function (a, b) {
+      learned_tweet_ids.reduce(function (a, b) {
         return (0 <= compare_tweet_ids(a, b)
                 ? a
                 : b);
