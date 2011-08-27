@@ -76,14 +76,17 @@ class Fnfnen3 < Sinatra::Application
   end
 
   get '/sign_in' do
-    haml :sign_in
-  end
-
-  post '/sign_in' do
+    # For localhost:
+    #   $ export TWITTER_OAUTH_CONSUMER_KEY=...
+    #   $ export TWITTER_OAUTH_CONSUMER_SECRET=...
+    #   $ rackup
+    #
+    # For heroku:
+    #   $ heroku config:add TWITTER_OAUTH_CONSUMER_KEY=...
+    #   $ heroku config:add TWITTER_OAUTH_CONSUMER_SECRET=...
+    #   $ rake deploy
     request_token = consumer.get_request_token :oauth_callback => callback_url
 
-    session[:consumer_key] = params[:consumer_key]
-    session[:consumer_secret] = params[:consumer_secret]
     session[:request_token_token] = request_token.token
     session[:request_token_secret] = request_token.secret
     session[:access_token_token] = nil
@@ -93,7 +96,7 @@ class Fnfnen3 < Sinatra::Application
   end
 
   get '/sign_out' do
-    safe_keys = [:consumer_key, :consumer_secret]
+    safe_keys = []
     h = {}
     safe_keys.each do |k|
       h[k] = session[k]
@@ -139,10 +142,20 @@ class Fnfnen3 < Sinatra::Application
 
   def consumer
     OAuth::Consumer.new(
-      params[:consumer_key] || session[:consumer_key],
-      params[:consumer_secret] || session[:consumer_secret],
+      consumer_key,
+      consumer_secret,
       :site => 'https://api.twitter.com/'
     )
+  end
+
+  def consumer_key
+    ENV['TWITTER_OAUTH_CONSUMER_KEY'] ||
+      halt(500, 'consumer_key is not set')
+  end
+
+  def consumer_secret
+    ENV['TWITTER_OAUTH_CONSUMER_SECRET'] ||
+      halt(500, 'consumer_secret is not set')
   end
 
   def deny_unauthorized_access
@@ -156,8 +169,8 @@ class Fnfnen3 < Sinatra::Application
   def twitter
     t = Twitter::Client.new
 
-    t.consumer_key = session[:consumer_key]
-    t.consumer_secret = session[:consumer_secret]
+    t.consumer_key = consumer_key
+    t.consumer_secret = consumer_secret
     t.oauth_token = session[:access_token_token]
     t.oauth_token_secret = session[:access_token_secret]
 
