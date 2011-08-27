@@ -318,6 +318,10 @@ describe('Prafbe', function () {
       expect(tokenize_object({key: null})).toEqual([]);
       expect(tokenize_object({key: undefined})).toEqual([]);
     });
+    it('should ignore keys starting with "_"', function () {
+      expect(tokenize_object({key: 'va*lue'})).toEqual(['key*va', 'key*lue']);
+      expect(tokenize_object({_key: 'va*lue'})).toEqual([]);
+    });
   });
 });
 describe('TweetDatabase', function () {

@@ -1459,6 +1459,9 @@ function tokenize_object(object)  //{{{2
   var result = [];
 
   for (var key in object) {
+    if (key.indexOf('_') == 0)
+      continue;  // This is an internal property; do not tokenize it.
+
     var value = object[key];
     var tokens;
     if (typeof value == 'string') {
