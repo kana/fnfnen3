@@ -972,6 +972,25 @@ function set_up_censored_columns(rule_text)  //{{{2
   }
   select_column(HOME_COLUMN_NAME);
 
+  // Update filtering stylesheet.
+  var css = [];
+  css.push('.column.censorship_result .tweet {display: none;}\n');
+  for (var column_name in g_censored_columns) {
+    var required_classes = g_censored_columns[column_name];
+    css.push([
+      '.column',
+      '.', class_name_from_column_name(column_name),
+      ' ',
+      '.tweet',
+      required_classes.map(function (x) {return ['.', x];}),
+      ' ',
+      '{display: block;}',
+      '\n',
+    ]);
+  }
+  replace_stylesheet('fnfnen_column_filtering_stylesheet',
+                     string_from_tree(css));
+
   return;
 }
 
@@ -1027,24 +1046,6 @@ function update_censored_columns(tweets_n2o) //{{{2
 
   for (var column_name in g_censored_columns)
     add_tweets_n2o_into_column(column(column_name), tweets_n2o);
-
-  var css = [];
-  css.push('.column.censorship_result .tweet {display: none;}\n');
-  for (var column_name in g_censored_columns) {
-    var required_classes = g_censored_columns[column_name];
-    css.push([
-      '.column',
-      '.', class_name_from_column_name(column_name),
-      ' ',
-      '.tweet',
-      required_classes.map(function (x) {return ['.', x];}),
-      ' ',
-      '{display: block;}',
-      '\n',
-    ]);
-  }
-  replace_stylesheet('fnfnen_column_filtering_stylesheet',
-                     string_from_tree(css));
 
   return;
 }
