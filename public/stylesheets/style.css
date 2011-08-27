@@ -37,10 +37,14 @@ body
   margin: 0 5%;
 }
 
-#copyright_notice
+#footer
 {
   font-size: 80%;
-  margin: 1em 0;
+  margin: 2em 0 1em;
+}
+#copyright_notice
+{
+  margin: 1ex 0;
 }
 
 
@@ -196,7 +200,7 @@ dd.submit {margin: 0;}
 #tweet_content_counter {font-weight: bolder;}
 
 
-#copyright_notice {text-align: right;}
+#footer {text-align: right;}
 
 
 .invisible {display: none;}

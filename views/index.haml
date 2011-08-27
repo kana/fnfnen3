@@ -43,11 +43,6 @@
         Not loaded yet.
       %span#requesting_status
         (idle)
-      %span#sign_out_button
-        [
-        %a(href='/sign_out' title='Sign out from fnfnen3.')
-          &#x22be;
-        ]
 
     #balloon_container
       -# See show_balloon() in core.js for the details.
@@ -89,19 +84,25 @@
       .predefined.column#column_error_log(title='Error Log')
         -# See also log() in core.js for the details.
 
-    %address#copyright_notice
-      fnfnen3 @@VERSION@@
-      \/
-      Copyright &copy; 2009-2011 Kana Natsuno
-      (
-      %a(href='http://twitter.com/kana1') @kana1
-      )
-      &lt;
-      %a(href='http://whileimautomaton.net/') http://whileimautomaton.net/
-      &gt;
-      \/
-      %a(href='http://github.com/kana/fnfnen3')
-        Source code is freely available at GitHub.
+    #footer
+      #footer_menu
+        %a(href='https://github.com/kana/fnfnen3')
+          Watch changes
+        &#x2014;
+        %a(href='https://github.com/kana/fnfnen3/issues')
+          Report issues
+        &#x2014;
+        %a(href='/sign_out' title='Sign out from fnfnen3.')
+          Sign out
+
+      %address#copyright_notice
+        fnfnen3 @@VERSION@@
+        &#x2014;
+        Copyright &copy; 2009-2011 
+        %a(href='http://whileimautomaton.net/') Kana Natsuno
+        (
+        %a(href='http://twitter.com/kana1') @kana1
+        )
 
 -# __END__
 -# vim: foldmethod=marker
