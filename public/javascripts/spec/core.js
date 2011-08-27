@@ -319,6 +319,50 @@ describe('Prafbe', function () {
     });
   });
 });
+describe('TweetDatabase', function () {
+  describe('normalize_text', function () {
+    it('should do nothing for tweet without entities', function () {
+      var db = new TweetDatabase();
+      var tweet = {};
+
+      expect(tweet.normalized_text).toBeUndefined();
+      db.normalize_text(tweet);
+      expect(tweet.normalized_text).toBeUndefined();
+    });
+    it('should do nothing for tweet without "urls" entities', function () {
+      var db = new TweetDatabase();
+      var tweet = {entities: {}};
+
+      expect(tweet.normalized_text).toBeUndefined();
+      db.normalize_text(tweet);
+      expect(tweet.normalized_text).toBeUndefined();
+    });
+    it('should do nothing for tweet with empty "urls" entities', function () {
+      var db = new TweetDatabase();
+      var tweet = {entities: {urls: []}};
+
+      expect(tweet.normalized_text).toBeUndefined();
+      db.normalize_text(tweet);
+      expect(tweet.normalized_text).toBeUndefined();
+    });
+    it('should expand urls and create normalized_text', function () {
+      var db = new TweetDatabase();
+      var tweet = {
+        entities: {
+          urls: [
+            {url: 'http://t.co/hi', expanded_url: 'http://example.com/hi'},
+            {url: 'http://t.co/hey', expanded_url: 'http://example.com/hey'},
+          ]
+        },
+        text: 'hi http://t.co/hi hey http://t.co/hey hi http://t.co/hi'
+      };
+
+      expect(tweet.normalized_text).toBeUndefined();
+      db.normalize_text(tweet);
+      expect(tweet.normalized_text).toEqual('hi http://example.com/hi hey http://example.com/hey hi http://example.com/hi');
+    });
+  });
+});
 
 
 

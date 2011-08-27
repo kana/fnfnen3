@@ -1806,6 +1806,20 @@ function TweetDatabase()  //{{{2
   this.ids = function () {
     return this._db;
   };
+
+  this.normalize_text = function (tweet) {
+    if (tweet.entities && tweet.entities.urls) {
+      var text = tweet.text;
+      for (var i in tweet.entities.urls) {
+        var u = tweet.entities.urls[i];
+        text = text.replace(
+          RegExp(u.url.replace(/([^A-Za-z90-9])/g, '\\$1'), 'g'),
+          u.expanded_url
+        );
+      }
+      tweet.normalized_text = text;
+    }
+  };
 }
 
 
