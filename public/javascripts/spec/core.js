@@ -326,27 +326,27 @@ describe('TweetDatabase', function () {
       var db = new TweetDatabase();
       var tweet = {};
 
-      expect(tweet.normalized_text).toBeUndefined();
+      expect(tweet._text).toBeUndefined();
       db.normalize_text(tweet);
-      expect(tweet.normalized_text).toBeUndefined();
+      expect(tweet._text).toBeUndefined();
     });
     it('should do nothing for tweet without "urls" entities', function () {
       var db = new TweetDatabase();
       var tweet = {entities: {}};
 
-      expect(tweet.normalized_text).toBeUndefined();
+      expect(tweet._text).toBeUndefined();
       db.normalize_text(tweet);
-      expect(tweet.normalized_text).toBeUndefined();
+      expect(tweet._text).toBeUndefined();
     });
     it('should do nothing for tweet with empty "urls" entities', function () {
       var db = new TweetDatabase();
       var tweet = {entities: {urls: []}};
 
-      expect(tweet.normalized_text).toBeUndefined();
+      expect(tweet._text).toBeUndefined();
       db.normalize_text(tweet);
-      expect(tweet.normalized_text).toBeUndefined();
+      expect(tweet._text).toBeUndefined();
     });
-    it('should expand urls and create normalized_text', function () {
+    it('should expand urls, create _text, replace text', function () {
       var db = new TweetDatabase();
       var tweet = {
         entities: {
@@ -358,9 +358,10 @@ describe('TweetDatabase', function () {
         text: 'hi http://t.co/hi hey http://t.co/hey hi http://t.co/hi'
       };
 
-      expect(tweet.normalized_text).toBeUndefined();
+      expect(tweet._text).toBeUndefined();
       db.normalize_text(tweet);
-      expect(tweet.normalized_text).toEqual('hi http://example.com/hi hey http://example.com/hey hi http://example.com/hi');
+      expect(tweet._text).toEqual('hi http://t.co/hi hey http://t.co/hey hi http://t.co/hi');
+      expect(tweet.text).toEqual('hi http://example.com/hi hey http://example.com/hey hi http://example.com/hi');
     });
   });
 });

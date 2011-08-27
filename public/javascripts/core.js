@@ -265,7 +265,7 @@ function html_from_tweet(tweet)  //{{{2
         '@',
         ['class', 'text'],
       ],
-      make_links_in_text(tweet.normalized_text),
+      make_links_in_text(tweet.text),
     ],
     posted_time: [
       'a',
@@ -1801,7 +1801,9 @@ function TweetDatabase()  //{{{2
           u.expanded_url
         );
       }
-      tweet.normalized_text = text;
+
+      tweet._text = tweet.text;  // original text
+      tweet.text = text;  // normalized text
     }
   };
 }
