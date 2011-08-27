@@ -691,7 +691,10 @@ function callback_update(response, name_since_id, queue_id)  //{{{3
 
   var new_tweets_n2o = [];
   if (response.error == null) {
-    new_tweets_n2o = response;
+    new_tweets_n2o = $.grep(
+      response,
+      function (tweet) {return !tweet_db.has_p(tweet);}
+    );
 
     if (0 < new_tweets_n2o.length) {
       var newest_id = new_tweets_n2o[0].id_str;
