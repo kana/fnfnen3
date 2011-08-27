@@ -241,6 +241,11 @@ body {color: #000; background-color: #eee;}
 .tweet.mine {background-color: #efe;}
 .tweet.spam {background-color: #ddd;}
 
+.tweet.spam .screen_name,
+.tweet.spam .link,
+.tweet.spam .hashtag,
+.tweet.spam .posted_time {color: #999;}
+
 .tweet.score0 {color: #000000;}
 .tweet.score1 {color: #141414;}
 .tweet.score2 {color: #282828;}
