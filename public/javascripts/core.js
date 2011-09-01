@@ -1801,7 +1801,8 @@ function TweetDatabase()  //{{{2
         var u = tweet.entities.urls[i];
         text = text.replace(
           RegExp(u.url.replace(/([^A-Za-z90-9])/g, '\\$1'), 'g'),
-          u.expanded_url
+            // NB: Short enough u.url doesn't have u.expanded_url.
+          u.expanded_url || u.url
         );
       }
 

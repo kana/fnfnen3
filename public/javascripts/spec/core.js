@@ -357,15 +357,16 @@ describe('TweetDatabase', function () {
           urls: [
             {url: 'http://t.co/hi', expanded_url: 'http://example.com/hi'},
             {url: 'http://t.co/hey', expanded_url: 'http://example.com/hey'},
+            {url: 'http://wh.at/that', expanded_url: null},
           ]
         },
-        text: 'hi http://t.co/hi hey http://t.co/hey hi http://t.co/hi'
+        text: 'hi http://t.co/hi hey http://t.co/hey hi http://wh.at/that'
       };
 
       expect(tweet._text).toBeUndefined();
       db.normalize_text(tweet);
-      expect(tweet._text).toEqual('hi http://t.co/hi hey http://t.co/hey hi http://t.co/hi');
-      expect(tweet.text).toEqual('hi http://example.com/hi hey http://example.com/hey hi http://example.com/hi');
+      expect(tweet._text).toEqual('hi http://t.co/hi hey http://t.co/hey hi http://wh.at/that');
+      expect(tweet.text).toEqual('hi http://example.com/hi hey http://example.com/hey hi http://wh.at/that');
     });
   });
 });
