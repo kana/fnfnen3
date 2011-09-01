@@ -2,7 +2,7 @@ require 'jasmine'
 load 'jasmine/tasks/jasmine.rake'
 
 task :deploy do
-  sh 'git diff --quiet'
+  sh 'git diff --quiet HEAD'
   sh <<'END'
     sed -i -e "s!@@VERSION@@!$(git describe --always --dirty)!g" $(
       for i in $(git ls-files)
