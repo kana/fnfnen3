@@ -28,7 +28,6 @@ require 'cgi'
 require 'haml'
 require 'oauth'
 require 'sinatra'
-require 'twitter'
 
 
 
@@ -164,17 +163,6 @@ class Fnfnen3 < Sinatra::Application
     else
       redirect to('/sign_in')
     end
-  end
-
-  def twitter
-    t = Twitter::Client.new
-
-    t.consumer_key = consumer_key
-    t.consumer_secret = consumer_secret
-    t.oauth_token = session[:access_token_token]
-    t.oauth_token_secret = session[:access_token_secret]
-
-    t
   end
 end
 
